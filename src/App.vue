@@ -7,6 +7,11 @@
 <script setup lang="ts">
 import { customRef, triggerRef } from 'vue';
 
+// options API
+defineOptions({
+    name: 'App',
+});
+
 function MyRef<T> (value: T) {
     return customRef((track, trigger) => {
         return {
