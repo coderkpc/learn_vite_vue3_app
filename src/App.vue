@@ -1,21 +1,35 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+    <button @click="handleChange">change</button>
+    <p>{{msg}}</p>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+<script setup lang="ts">
+import { customRef, triggerRef } from 'vue';
+
+function MyRef<T> (value: T) {
+    return customRef((track, trigger) => {
+        return {
+            get () {
+                track()
+                return value
+            },
+            set (newVal: T) {
+                value = newVal
+                console.log(value)
+                trigger()
+            }
+        }
+    })
 }
+
+let msg = MyRef<string>('小柯')
+
+const handleChange = () => {
+    msg.value = '大柯'    
+}
+</script>
+ 
+<style>
+
 </style>
